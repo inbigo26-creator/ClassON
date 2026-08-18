@@ -1,15 +1,14 @@
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
-import firebaseConfigJson from '../../firebase-applet-config.json';
 
 const firebaseConfig = {
-  projectId: firebaseConfigJson.projectId || "valid-style-3xctm",
-  appId: firebaseConfigJson.appId || "1:192855935019:web:408c81b8655b6aea60426e",
-  apiKey: firebaseConfigJson.apiKey || "AIzaSyB2p0ho6DBbBUNfBsx4UNXeQAOxvik3QFA",
-  authDomain: firebaseConfigJson.authDomain || "valid-style-3xctm.firebaseapp.com",
-  storageBucket: firebaseConfigJson.storageBucket || "valid-style-3xctm.firebasestorage.app",
-  messagingSenderId: firebaseConfigJson.messagingSenderId || "192855935019",
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "valid-style-3xctm",
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:192855935019:web:408c81b8655b6aea60426e",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyB2p0ho6DBbBUNfBsx4UNXeQAOxvik3QFA",
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "valid-style-3xctm.firebaseapp.com",
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "valid-style-3xctm.firebasestorage.app",
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "192855935019",
 };
 
 // Initialize Firebase App
@@ -22,9 +21,9 @@ googleProvider.setCustomParameters({
   prompt: 'select_account'
 });
 
-// Initialize Firestore
-const databaseId = firebaseConfigJson.firestoreDatabaseId && firebaseConfigJson.firestoreDatabaseId !== '(default)'
-  ? firebaseConfigJson.firestoreDatabaseId
-  : undefined;
+// Initialize Firestore (with specific databaseId)
+const databaseId = import.meta.env.VITE_FIREBASE_DATABASE_ID || "ai-studio-ead6ecf8-c80c-41ea-86c6-404d0d8316ca";
 
-export const db = databaseId ? getFirestore(app, databaseId) : getFirestore(app);
+export const db = databaseId && databaseId !== '(default)'
+  ? getFirestore(app, databaseId)
+  : getFirestore(app);
