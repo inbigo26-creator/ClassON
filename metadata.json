@@ -1,0 +1,6 @@
+{
+  "name": "우리 반",
+  "description": "고등학교 담임교사를 위한 학급 운영 통합 웹앱 - 자리배치, 모둠편성, 외부활동 출석, 당번배정, 학생뽑기, 제출물 체크",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

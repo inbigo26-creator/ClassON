@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    background-color: #F8FAFC;
+    color: #0F172A;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+/* Bento Grid Design System Helpers */
+.bento-card {
+  background-color: #FFFFFF;
+  border: 2px solid #0F172A;
+  border-radius: 1.5rem;
+  box-shadow: 4px 4px 0px 0px #0F172A;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.bento-card-interactive:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px 0px #0F172A;
+}
+
+.bento-btn {
+  border: 2px solid #0F172A;
+  border-radius: 0.75rem;
+  font-weight: 700;
+  box-shadow: 2px 2px 0px 0px #0F172A;
+  transition: all 0.1s ease;
+}
+
+.bento-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 0px 0px 0px 0px #0F172A;
+}
+
+.bento-badge {
+  border: 1.5px solid #0F172A;
+  border-radius: 9999px;
+  font-weight: 800;
+  box-shadow: 1px 1px 0px 0px #0F172A;
+}
+
+/* Print Optimization */
+@media print {
+  body {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+  }
+  header, aside, .no-print {
+    display: none !important;
+  }
+  main {
+    padding-left: 0 !important;
+    max-width: 100% !important;
+  }
+  .bento-card {
+    box-shadow: none !important;
+    border: 1px solid #333333 !important;
+    page-break-inside: avoid;
+  }
+}

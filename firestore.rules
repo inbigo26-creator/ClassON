@@ -1,0 +1,83 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    function isDocOwner() {
+      return isAuthenticated() && request.auth.uid == resource.data.ownerUid;
+    }
+    
+    function willBeDocOwner() {
+      return isAuthenticated() && request.auth.uid == request.resource.data.ownerUid;
+    }
+
+    // User profile documents
+    match /users/{userId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    // Classes collection
+    match /classes/{classId} {
+      allow create: if willBeDocOwner();
+      allow read, update, delete: if isDocOwner();
+    }
+
+    // Students collection
+    match /students/{studentId} {
+      allow create: if willBeDocOwner();
+      allow read, update, delete: if isDocOwner();
+    }
+
+    // Seat arrangements
+    match /seat_arrangements/{seatArrangementId} {
+      allow create: if willBeDocOwner();
+      allow read, update, delete: if isDocOwner();
+    }
+
+    // Group arrangements
+    match /group_arrangements/{groupArrangementId} {
+      allow create: if willBeDocOwner();
+      allow read, update, delete: if isDocOwner();
+    }
+
+    // Duty arrangements (당번 배정)
+    match /duty_arrangements/{dutyArrangementId} {
+      allow create: if willBeDocOwner();
+      allow read, update, delete: if isDocOwner();
+    }
+
+    // Student pick history (학생 뽑기)
+    match /student_picks/{pickId} {
+      allow create: if willBeDocOwner();
+      allow read, update, delete: if isDocOwner();
+    }
+
+    // Field & outdoor activity attendance (외부활동 출석)
+    match /field_attendances/{attendanceId} {
+      allow create: if willBeDocOwner();
+      allow read, update, delete: if isDocOwner();
+    }
+
+    // Submissions checklist (제출물 체크)
+    match /submissions/{submissionId} {
+      allow create: if willBeDocOwner();
+      allow read, update, delete: if isDocOwner();
+    }
+
+    // Fallback match for any other user-owned collections
+    match /{document=**} {
+      allow read, write: if isAuthenticated() && (
+        (resource != null && resource.data.ownerUid == request.auth.uid) ||
+        (request.resource != null && request.resource.data.ownerUid == request.auth.uid)
+      );
+    }
+  }
+}
